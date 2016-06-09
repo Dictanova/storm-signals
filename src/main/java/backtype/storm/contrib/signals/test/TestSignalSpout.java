@@ -2,15 +2,14 @@
 
 package backtype.storm.contrib.signals.test;
 
-import java.util.Map;
-
+import backtype.storm.contrib.signals.spout.BaseSignalSpout;
+import org.apache.storm.spout.SpoutOutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import backtype.storm.contrib.signals.spout.BaseSignalSpout;
-import backtype.storm.spout.SpoutOutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
+import java.util.Map;
 
 @SuppressWarnings("serial")
 public class TestSignalSpout extends BaseSignalSpout {

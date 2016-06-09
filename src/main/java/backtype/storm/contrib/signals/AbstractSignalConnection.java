@@ -1,12 +1,11 @@
 package backtype.storm.contrib.signals;
 
-import org.apache.storm.zookeeper.WatchedEvent;
-import org.apache.storm.zookeeper.Watcher;
-import org.apache.storm.zookeeper.data.Stat;
+import org.apache.storm.shade.org.apache.curator.framework.CuratorFramework;
+import org.apache.storm.shade.org.apache.zookeeper.WatchedEvent;
+import org.apache.storm.shade.org.apache.zookeeper.Watcher;
+import org.apache.storm.shade.org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.storm.curator.framework.CuratorFramework;
 
 public abstract class AbstractSignalConnection implements Watcher {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSignalConnection.class);
@@ -14,8 +13,8 @@ public abstract class AbstractSignalConnection implements Watcher {
     protected String name;
     protected CuratorFramework client;
     protected SignalListener listener;
-    
-    
+
+
     protected void initWatcher() throws Exception {
         // create base path if necessary
         Stat stat = this.client.checkExists().usingWatcher(this).forPath(this.name);
@@ -35,28 +34,28 @@ public abstract class AbstractSignalConnection implements Watcher {
         }
 
         switch (we.getType()) {
-        case NodeCreated:
-            LOG.debug("Node created.");
-            break;
-        case NodeDataChanged:
-            LOG.debug("Received signal.");
-            try {
-                this.listener.onSignal(this.client.getData().forPath(we.getPath()));
-            } catch (Exception e) {
-                LOG.warn("Unable to process signal.", e);
-            }
-            break;
-        case NodeDeleted:
-            LOG.debug("NodeDeleted");
-            break;
+            case NodeCreated:
+                LOG.debug("Node created.");
+                break;
+            case NodeDataChanged:
+                LOG.debug("Received signal.");
+                try {
+                    this.listener.onSignal(this.client.getData().forPath(we.getPath()));
+                } catch (Exception e) {
+                    LOG.warn("Unable to process signal.", e);
+                }
+                break;
+            case NodeDeleted:
+                LOG.debug("NodeDeleted");
+                break;
         }
     }
 
     public void close() {
         this.client.close();
     }
-    
-    
+
+
     public void send(String toPath, byte[] signal) throws Exception {
         Stat stat = this.client.checkExists().forPath(toPath);
         if (stat == null) {

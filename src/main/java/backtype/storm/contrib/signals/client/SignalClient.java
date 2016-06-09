@@ -2,13 +2,12 @@
 
 package backtype.storm.contrib.signals.client;
 
-import org.apache.storm.zookeeper.data.Stat;
+import org.apache.storm.shade.org.apache.curator.framework.CuratorFramework;
+import org.apache.storm.shade.org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.storm.shade.org.apache.curator.retry.RetryOneTime;
+import org.apache.storm.shade.org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.storm.curator.framework.CuratorFramework;
-import org.apache.storm.curator.framework.CuratorFrameworkFactory;
-import org.apache.storm.curator.retry.RetryOneTime;
 
 public class SignalClient {
 

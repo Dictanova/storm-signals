@@ -1,20 +1,14 @@
 package backtype.storm.contrib.signals;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.storm.zookeeper.WatchedEvent;
-import org.apache.storm.zookeeper.Watcher;
-import org.apache.storm.zookeeper.data.Stat;
+import org.apache.storm.shade.org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.storm.shade.org.apache.curator.retry.RetryNTimes;
+import org.apache.storm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import backtype.storm.utils.Utils;
-
-import org.apache.storm.curator.framework.CuratorFramework;
-import org.apache.storm.curator.framework.CuratorFrameworkFactory;
-import org.apache.storm.curator.retry.RetryNTimes;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class StormSignalConnection extends AbstractSignalConnection {
     private static final Logger LOG = LoggerFactory.getLogger(StormSignalConnection.class);
@@ -37,7 +31,7 @@ public class StormSignalConnection extends AbstractSignalConnection {
         super.initWatcher();
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private static String zkHosts(Map conf) {
         int zkPort = Utils.getInt(conf.get("storm.zookeeper.port"));
         List<String> zkServers = (List<String>) conf.get("storm.zookeeper.servers");

@@ -2,17 +2,15 @@
 
 package backtype.storm.contrib.signals.spout;
 
-import java.util.Map;
-
+import backtype.storm.contrib.signals.SignalListener;
+import backtype.storm.contrib.signals.StormSignalConnection;
+import org.apache.storm.spout.SpoutOutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.base.BaseRichSpout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import backtype.storm.contrib.signals.StormSignalConnection;
-import backtype.storm.contrib.signals.SignalListener;
-import backtype.storm.spout.SpoutOutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseRichSpout;
+import java.util.Map;
 
 @SuppressWarnings("serial")
 public abstract class BaseSignalSpout extends BaseRichSpout implements SignalListener {
@@ -35,8 +33,8 @@ public abstract class BaseSignalSpout extends BaseRichSpout implements SignalLis
             LOG.error("Error creating SignalConnection.", e);
         }
     }
-    
-    public void sendSignal(String toPath, byte[] signal)throws Exception {
+
+    public void sendSignal(String toPath, byte[] signal) throws Exception {
         this.signalConnection.send(toPath, signal);
     }
 
